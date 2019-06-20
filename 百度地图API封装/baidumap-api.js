@@ -67,8 +67,9 @@ baidu['getPolygon'] = function () {
     if(baidu.overlay==undefined){
         return pnt;
     }
-    for(var j = 0; j < baidu.overlay.length; j++) {
-        var grid = overlay[j];
+    var path = baidu.overlay.getPath();
+    for(var j = 0; j < path.length; j++) {
+        var grid = path[j];
         var item = {}
         item.ord = j;
         item.lng = grid.lng;
@@ -119,8 +120,16 @@ baidu['draw'] = function (type) {
 //重新加载多边形
 baidu['loadPolygon'] = function (item) {
     var pArray=[]
-    for(i=0;j<item.length;i++){
+    for(i=0;i<item.length;i++){
         pArray.push(new BMap.Point(item[i].lng,item[i].lat))
+    }
+    var styleOptions = {
+        strokeColor:"red",    //边线颜色。
+        fillColor:"red",      //填充颜色。当参数为空时，圆形将没有填充效果。
+        strokeWeight: 3,       //边线的宽度，以像素为单位。
+        strokeOpacity: 0.8,    //边线透明度，取值范围0 - 1。
+        fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
+        strokeStyle: 'solid' //边线的样式，solid或dashed。
     }
     var polygon = new BMap.Polygon(pArray, styleOptions);  //创建多边形
     this.clearPolygon();
